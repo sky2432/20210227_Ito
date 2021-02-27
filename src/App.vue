@@ -1,28 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <input type="text" v-model="inputText">
+    <button @click="convert">住所自動入力</button>
+    <p>Address　:　{{Address}}</p>
+  </div>  
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from "axios";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      inputText: "",
+      Address: "",
+    };
+  },
+   methods: {
+     async convert() {
+      const item = await axios.get(`https://apis.postcode-jp.com/api/v4/postcodes/${this.inputText}?apiKey=UuqgYKMuxKCuqFJFGBEBFPkZmIMxGV4bBdBetew`);
+      console.log(item)
+      this.Address = item.data.allAddress
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
